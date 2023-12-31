@@ -1,0 +1,32 @@
+name: test-ci
+
+on:
+    push:
+        branches:
+          - "main"
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+        -
+            name: Checkout
+            uses: actions/checkout@v4
+        -
+            name: Set up Docker Buildx
+            uses: docker/setup-buildx-action@v3
+        -
+            name: Test x86_64 CC
+            uses: docker/build-push-action@v5
+            with:
+                context: .
+                file: ./x86_64/Dockerfile
+                push: false
+        -
+            name: Test i686 CC
+            uses: docker/build-push-action@v5
+            with:
+                context: .
+                file: ./i686/Dockerfile
+                push: false
+
